@@ -1,19 +1,20 @@
 import axios from "axios";
 
-const Register = async (email, username, password) => {
+const postDelete = async (id) => {
+	console.log(id);
+
 	try {
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
 			},
 		};
-		const { data } = await axios.post(
-			"http://localhost:8000/api/users/register",
-			{ email, username, password },
+		const { data } = await axios.delete(
+			`http://localhost:8000/api/forums/${id}`,
+			{ id },
 			config
 		);
 		if (data) {
-			// console.log(data);
 			return data;
 		} else {
 			return "Database Error";
@@ -22,5 +23,4 @@ const Register = async (email, username, password) => {
 		console.log(err);
 	}
 };
-
-export default Register;
+export default postDelete;

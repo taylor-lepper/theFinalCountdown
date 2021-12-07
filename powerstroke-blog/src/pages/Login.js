@@ -11,12 +11,21 @@ const Login = (props) => {
 	const [password, setPassword] = useState("");
 	const [message, setMessage] = useState(null);
 	const navigate = useNavigate();
-	console.log(props);
+	// console.log(props);
 	const submitHandler = async (event) => {
 		event.preventDefault();
+
 		if (email && password) {
 			const result = await login(email, password);
 
+			if (!result) {
+				setMessage("Please enter correct login information.");
+
+				setTimeout(() => {
+					setMessage("");
+				}, 4000);
+				return;
+			}
 			if (result) {
 				console.log(result);
 
@@ -28,10 +37,10 @@ const Login = (props) => {
 				const posts = result.posts;
 
 				props.updateLogin({
+					id: result._id,
 					loggedIn: token,
 					username,
 					posts,
-					id,
 					email,
 				});
 
@@ -46,69 +55,76 @@ const Login = (props) => {
 				bake_cookie("user", user);
 
 				navigate("/");
-				if (result.error) {
-					setMessage(result.error);
-
-					setTimeout(() => {
-						setMessage("");
-					}, 4000);
-					return;
-				}
 			}
+		} else {
+			setMessage("Please fill out both fields correctly to login!");
+
+			setTimeout(() => {
+				setMessage("");
+			}, 4000);
+			return;
 		}
 	};
 
 	return (
-		<>
-			{message && <h1>{message}</h1>}
-
+		<div className="margLeft175">
 			<div>
 				<br />
-				<h4>
+				<h1 className="border3">Login</h1>
+				<br />
+				<h4 className="border1">
 					Once logged in, you will have full access to the forums!
 				</h4>
 				<br />
-				<form>
-					<div className="form-control">
-						<label className="label" htmlFor="email">
-							E-mail Address
-						</label>
-						<input
-							type="email"
-							name="email"
-							className="input"
-							required
-							value={email}
-							onChange={(eventObj) =>
-								setEmail(eventObj.target.value)
-							}
-						/>
+
+				<div className="login">
+					<div className="message">
+						{message && <h1>{message}</h1>}
 					</div>
-					<div className="form-control">
-						<label className="label" htmlFor="password">
-							Password
-						</label>
-						<input
-							type="text"
-							name="password"
-							required
-							className="input"
-							value={password}
-							onChange={(eventObj) =>
-								setPassword(eventObj.target.value)
-							}
-						/>
-					</div>
-					<button
-						type="submit"
-						className="btn btn-primary"
-						onClick={submitHandler}
-					>
-						Submit
-					</button>
-				</form>
+					<form>
+						<div className="">
+							<label className="border1-2" htmlFor="email">
+								E-mail Address:
+							</label>
+							<input
+								type="email"
+								name="email"
+								className="border1-1"
+								required
+								value={email}
+								onChange={(eventObj) =>
+									setEmail(eventObj.target.value)
+								}
+							/>
+						</div>
+						<div className="">
+							<label className="border1-2" htmlFor="password">
+								Password:
+							</label>
+							<input
+								type="text"
+								name="password"
+								required
+								className="border1-1"
+								value={password}
+								onChange={(eventObj) =>
+									setPassword(eventObj.target.value)
+								}
+							/>
+						</div>
+						<div className="paddington2">
+							<button
+								type="submit"
+								className="booootoooon"
+								onClick={submitHandler}
+							>
+								Submit
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

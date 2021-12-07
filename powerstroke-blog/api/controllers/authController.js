@@ -1,7 +1,14 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
-const Post = require("../models/Post");
+
 const generateToken = require("../utils/generateToken");
+
+const getUsers = (req, res, next) => {
+	console.log("Getting Posts");
+	User.find()
+		.then((users) => res.send(users))
+		.catch(next);
+};
 
 const postRegister = async (req, res, next) => {
 	const { email, username, password } = req.body;
@@ -35,7 +42,7 @@ const postRegister = async (req, res, next) => {
 		if (!err.statusCode) {
 			err.statusCode = 500;
 		}
-		console.log(err);
+		console.log("line 45: " + err);
 		next(err);
 	}
 };
@@ -59,33 +66,18 @@ const postLogin = async (req, res, next) => {
 			});
 			console.log("Log in successful");
 		} else {
-			res.status(401);
+			res.status(401).json({
+				error: "incorrect password",
+			});
 			throw new Error("Authentication failed");
 		}
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500;
 		}
-		console.log(err);
+		console.log("line 77: " + err);
 		next(err);
 	}
 };
 
-const postCreate = async (req, res, next) => {
-	const { title, body, section } = req.body;
-	const { _id } = req.user;
-
-	Post.create({ title, body, section })
-		.then((newPost) => {
-			return Promise.all([
-				User.updateOne({ _id }, { $push: { posts: newPost } }),
-				Post.findOne({ _id: newPost._id }),
-			]);
-		})
-		.then(([modifiedObj, postObj]) => {
-			res.send(postObj);
-		})
-		.catch(next);
-};
-
-module.exports = { postRegister, postLogin, postCreate };
+module.exports = { getUsers, postRegister, postLogin };

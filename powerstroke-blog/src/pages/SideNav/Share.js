@@ -2,9 +2,11 @@ import React from "react";
 
 const Share = () => {
 	return (
-		<div className="Share">
-			<br />
-			<h1>Share Page</h1>
+		<div className="margLeft175">
+			<div className="Share">
+				<br />
+				<h1 className="border3">Share Page</h1>
+			</div>
 		</div>
 	);
 };

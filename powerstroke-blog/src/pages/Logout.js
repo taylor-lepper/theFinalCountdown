@@ -29,24 +29,28 @@ const Logout = (props) => {
 	};
 
 	return (
-		<>
-			{message && <h1>{message}</h1>}
+		<div className="Logout">
+			<div className="margLeft175">
+				{message && <h1>{message}</h1>}
 
-			<div className="paddington">
-				<br />
+				<div className="paddington">
+					<div className="box1">
+						<br />
 
-				<h3>Please click the button below to Log Out!!!</h3>
-				<br />
-				<br />
-				<button
-					type="submit"
-					className="btn btn-primary"
-					onClick={submitHandler}
-				>
-					Logout
-				</button>
+						<h3> Please click the button below to Log Out!!!</h3>
+						<br />
+						<br />
+						<button
+							type="submit"
+							className="btn btn-primary"
+							onClick={submitHandler}
+						>
+							Logout
+						</button>
+					</div>
+				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

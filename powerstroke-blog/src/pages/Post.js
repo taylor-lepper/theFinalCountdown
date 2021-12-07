@@ -3,29 +3,67 @@ import { useNavigate } from "react-router-dom";
 import createPost from "../actions/createPost";
 
 const Post = (props) => {
+	//to do add user info
+	const navigate = useNavigate();
 	const [title, setTitle] = useState("");
 	const [body, setBody] = useState("");
+	const [section, setSection] = useState("");
 	const [message, setMessage] = useState(null);
-	const submitHandler = "turds";
+
+	let author = props.user.username;
+	let creator = props.user.id;
+
 	console.log(props);
-	// const creator = props.user.id;
-	// const section = props.section;
+	console.log("title : " + title);
+	console.log("body : " + body);
+	console.log("section : " + section);
+	console.log("creator : " + creator);
+	console.log("author : " + author);
+
+	const submitHandler = async (event) => {
+		event.preventDefault();
+		const likes = "0";
+		console.log("submitHandler called");
+		if (title && body && section && author && creator) {
+			const result = await createPost(
+				title,
+				body,
+				section,
+				author,
+				creator,
+				likes
+			);
+			if (result) {
+				console.log(result);
+
+				navigate(`/${section}`);
+			} else {
+				setMessage("Error Creating Post");
+
+				setTimeout(() => {
+					setMessage("");
+				}, 4000);
+				return;
+			}
+		}
+	};
 	return (
-		<>
+		<div className="margLeft175">
 			{message && <h1>{message}</h1>}
 			<div className="Post">
 				<br />
-				<h1>Create New Post</h1>
-				<div>
+				<h1 className="border3">Create New Post</h1>
+
+				<div className="login">
 					<form>
-						<div className="form-control">
-							<label className="label" htmlFor="title">
-								Title
+						<div className="">
+							<label className="border1-2" htmlFor="title">
+								Title:
 							</label>
 							<input
 								type="text"
 								name="title"
-								className="title"
+								className="border1-1"
 								onChange={(eventObj) =>
 									setTitle(eventObj.target.value)
 								}
@@ -33,9 +71,9 @@ const Post = (props) => {
 								required
 							/>
 						</div>
-						<div className="form-control">
-							<label className="bodyLabel" htmlFor="body">
-								Post Body
+						<div className="">
+							<label className="border1-2" htmlFor="body">
+								Post Body:
 							</label>
 							<textarea
 								type="text"
@@ -45,33 +83,46 @@ const Post = (props) => {
 									setBody(eventObj.target.value)
 								}
 								value={body}
-								className="textArea"
+								className="border1-1"
 							></textarea>
 						</div>
-						<div className="form-control">
-							<label className="label" htmlFor="section">
-								Sub-Forum
+
+						<div className="">
+							<label className="border1-2" htmlFor="section">
+								Sub-Forum:
 							</label>
-							<select>
+							<select
+								name="section"
+								className="border1-1"
+								onChange={(eventObj) =>
+									setSection(eventObj.target.value)
+								}
+								value={section}
+							>
+								<option value="" placeholder="select"></option>
 								<option value="forums">forums</option>
-								<option value="build-journal">
+								<option value="build-journals">
 									build-journals
 								</option>
-								<option value="forums">how-tos</option>
-								<option value="forums">tech-articles</option>
+								<option value="how-to">how-to</option>
+								<option value="tech-articles">
+									tech-articles
+								</option>
 							</select>
 						</div>
-						<button
-							type="submit"
-							className="btn btn-primary"
-							onClick={submitHandler}
-						>
-							Submit
-						</button>
+						<div className="paddington2">
+							<button
+								type="submit"
+								className="booootoooon"
+								onClick={submitHandler}
+							>
+								Submit
+							</button>
+						</div>
 					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

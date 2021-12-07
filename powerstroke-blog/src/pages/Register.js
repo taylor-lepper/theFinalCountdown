@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import register from "../actions/register";
+import validateEmail from "../actions/validateEmail";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -16,97 +17,127 @@ const Register = () => {
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
+
+		const emailVal = validateEmail(email);
+		console.log(emailVal);
+		if (!emailVal) {
+			setMessage("Please enter a valid E-mail Address!");
+			setTimeout(() => {
+				setMessage("");
+			}, 4000);
+			return;
+		}
+
+		if (username.length < 5) {
+			setMessage("Username must be at least 5 characters long!");
+
+			setTimeout(() => {
+				setMessage("");
+			}, 4000);
+			return;
+		}
+
+		if (password.length < 5) {
+			setMessage("Password must be at least 5 characters long!");
+
+			setTimeout(() => {
+				setMessage("");
+			}, 4000);
+			return;
+		}
 		if (password !== rePassword) {
 			setMessage("Passwords do not match");
 			setPassword("");
 			setConfirmPassword("");
 			setTimeout(() => {
 				setMessage("");
-			}, 3000);
+			}, 4000);
+			return;
 		}
 		if (email && username && password && rePassword) {
 			const result = await register(email, username, password);
+			if (!result) {
+				setMessage("E-mail Address is already taken!");
+
+				setTimeout(() => {
+					setMessage("");
+				}, 4000);
+				return;
+			}
 			if (result) {
 				console.log(result);
 
-				if (result.error) {
-					setMessage(result.error);
-
-					setTimeout(() => {
-						setMessage("");
-					}, 4000);
-					return;
-				}
 				navigate("/login");
 			}
+		} else {
+			setMessage("Please fill out all of the required fields correctly!");
+
+			setTimeout(() => {
+				setMessage("");
+			}, 4000);
+			return;
 		}
 	};
 
 	return (
-		<>
-			{message && <h1>{message}</h1>}
-			<div className="header">
-				<br />
-				<h4>Please fill out all fields to create a new account!</h4>
-				<br />
-				<p>Already have an account? Click the "Log In" link above.</p>
-				<br />
-			</div>
-			<div className="smoke">
+		<div className="margLeft175">
+			<h1 className="border3">Sign Up</h1>
+			<div className="login">
+				<div className="message">{message && <h1>{message}</h1>}</div>
 				<form>
-					<div className="form-control bg-custom">
-						<label className="label" htmlFor="email">
-							E-mail Address
+					<div className="">
+						<label className="border1-2" htmlFor="email">
+							E-mail Address:
 						</label>
 						<input
 							type="email"
 							name="email"
 							required
-							className="input"
+							className="border1-1"
 							value={email}
 							onChange={(eventObj) =>
 								setEmail(eventObj.target.value)
 							}
 						/>
 					</div>
-					<div className="form-control bg-custom">
-						<label className="label" htmlFor="username">
-							Username
+					<div className="">
+						<label className="border1-2" htmlFor="username">
+							Username:
 						</label>
 						<input
 							type="username"
 							name="username"
 							required
-							className="input"
+							className="border1-1"
 							value={username}
 							onChange={(eventObj) =>
 								setUsername(eventObj.target.value)
 							}
 						/>
 					</div>
-					<div className="form-control bg-custom">
-						<label className="label" htmlFor="password">
-							Password
+					<div className="">
+						<label className="border1-2" htmlFor="password">
+							Password:
 						</label>
 						<input
 							type="password"
 							name="password"
 							required
-							className="input"
+							className="border1-1"
 							value={password}
 							onChange={(eventObj) =>
 								setPassword(eventObj.target.value)
 							}
 						/>
 					</div>
-					<div className="form-control bg-custom">
-						<label className="label" htmlFor="rePassword">
-							Confirm Password
+					<div className="">
+						<label className="border1-2" htmlFor="rePassword">
+							Confirm Password:
 						</label>
 						<input
 							type="password"
 							name="rePassword"
-							className="input"
+							className="border1-1"
 							required
 							value={rePassword}
 							onChange={(eventObj) =>
@@ -114,17 +145,26 @@ const Register = () => {
 							}
 						/>
 					</div>
-
-					<button
-						type="submit"
-						className="btn btn-primary"
-						onClick={submitHandler}
-					>
-						Submit
-					</button>
+					<div className="paddington2">
+						<button
+							type="submit"
+							className="booootoooon"
+							onClick={submitHandler}
+						>
+							Submit
+						</button>
+					</div>
 				</form>
 			</div>
-		</>
+			<div className="border1">
+				<h3>Please fill out all fields to create a new account!</h3>
+
+				<h4 className="paddington3">
+					Username and Password must be at least 5 characters long.
+				</h4>
+				<p>Already have an account? Click the "Log In" link above.</p>
+			</div>
+		</div>
 	);
 };
 

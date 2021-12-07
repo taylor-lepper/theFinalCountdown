@@ -12,14 +12,14 @@ import {
 
 class Navbar extends React.Component {
 	render() {
-		console.log(this.props.loggedIn);
+		console.log(this.props);
 
 		if (this.props.loggedIn === true) {
 			console.log("logged in (NavBar)");
 			return (
 				<>
 					<Nav>
-						<NavLogo to="/">PowerStroke Journal</NavLogo>
+						<NavLogo to="/">The PowerStroke Forum</NavLogo>
 						<Bars />
 
 						<NavMenu>

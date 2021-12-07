@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const createPost = async (title, body, section, author, creator, likes) => {
-	console.log(title, body, section, author, creator, likes);
+const postEdit = async (title, body, section, author, creator, id, likes) => {
+	console.log(id);
 
 	try {
 		const config = {
@@ -10,11 +10,12 @@ const createPost = async (title, body, section, author, creator, likes) => {
 			},
 		};
 		const { data } = await axios.post(
-			"http://localhost:8000/api/forums/create",
-			{ title, body, section, author, creator, likes },
+			`http://localhost:8000/api/forums/${id}`,
+			{ title, body, section, author, creator, id, likes },
 			config
 		);
 		if (data) {
+			// console.log(data);
 			return data;
 		} else {
 			return "Database Error";
@@ -23,4 +24,4 @@ const createPost = async (title, body, section, author, creator, likes) => {
 		console.log(err);
 	}
 };
-export default createPost;
+export default postEdit;

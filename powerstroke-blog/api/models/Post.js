@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Model = mongoose.model;
-const { String, Number, Boolean, ObjectId } = Schema.Types;
+const { Number, String, ObjectId } = Schema.Types;
 
-const postSchema = new Schema({
+const postSchema = new mongoose.Schema({
 	title: {
 		type: String,
 		required: true,
@@ -16,11 +15,21 @@ const postSchema = new Schema({
 		type: String,
 		required: true,
 	},
-
+	author: {
+		type: String,
+		required: true,
+	},
+	likes: {
+		type: Number,
+		required: true,
+	},
 	creator: {
 		type: ObjectId,
 		ref: "User",
+		required: true,
 	},
 });
+postSchema.set("collection", "posts");
+const Post = mongoose.model("Post", postSchema);
 
-module.exports = new Model("Post", postSchema);
+module.exports = Post;

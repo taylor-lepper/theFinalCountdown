@@ -1,3 +1,22 @@
+About:
+
+This project was created for the purpose of a React project and also final project for my Kingsland University full-stack devloper course.
+One of my passions is trucks, so I chose to make a forum based on the type of my current truck, which also my dream truck, a powerstroke diesel.
+When I was a kid, my best friend lived next door to me. His grandparents had a brand new teal 1997 F250 SuperCab longbed diesel 4x4. One time I got to ride in the back to Olympia which was about 100 miles away from home.
+
+Server/backend:
+
+The backend runs on Mongoose and MongoDb. The port is 27017 and the project name is powerstroke-blog.
+
+FrontEnd:
+
+The client side runs on React.js and Javascript. Html and Css are also involved.
+
+Creatory:
+
+Taylor Lepper
+11/5/21 - 12/5/21
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
